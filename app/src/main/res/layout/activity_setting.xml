@@ -111,7 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/colorWhite"
+            android:background="@color/colorTextHintGray"
             android:paddingRight="15dp"
             android:paddingLeft="15dp"
             android:orientation="horizontal">
@@ -149,7 +149,6 @@
                         android:layout_toRightOf="@+id/text_color_select_iv"
                         android:layout_marginLeft="10dp"
                         android:layout_gravity="center_vertical"
-                        android:text="흰색"
                         android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
@@ -188,7 +187,6 @@
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/background_color_select_iv"
                         android:layout_marginLeft="10dp"
-                        android:text="검은색"
                         android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
