@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">원데이 주식 명언</string>
+    <string name="appwidget_text">원데이 주식 명언입니다.</string>
+    <string name="add_widget">Add widget</string>
+
+    <!-- setting activity -->
+    <string name="setting_title_txt">위젯 설정</string>
+</resources>
