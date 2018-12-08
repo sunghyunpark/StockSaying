@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.investmentkorea.android.stocksaying">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -27,7 +29,11 @@
                 android:resource="@xml/main_widget_info" />
         </receiver>
 
-        <activity android:name="view.SettingActivity" />
+        <activity android:name="view.SettingActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
         <activity android:name="base.BaseActivity"></activity>
     </application>
 

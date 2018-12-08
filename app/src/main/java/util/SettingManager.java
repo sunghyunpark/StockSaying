@@ -74,7 +74,7 @@ public class SettingManager {
     글자 색 반환
      */
     public int getTextColor(){
-        return preferences.getInt(KEY_TEXT_COLOR, R.color.colorBlack);
+        return preferences.getInt(KEY_TEXT_COLOR, Contents.colorModelArray[1].getTextColorResource());
     }
 
     /*
@@ -89,7 +89,7 @@ public class SettingManager {
     글자 색 이름 반환
      */
     public String getTextColorName(){
-        return preferences.getString(KEY_TEXT_COLOR_NAME, Contents.colorModelArray[0].getTextColorName());
+        return preferences.getString(KEY_TEXT_COLOR_NAME, Contents.colorModelArray[1].getTextColorName());
     }
     /*
     투명색 설정

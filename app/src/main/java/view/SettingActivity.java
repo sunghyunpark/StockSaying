@@ -1,15 +1,21 @@
 package view;
 
 import android.app.WallpaperManager;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RemoteViews;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.investmentkorea.android.stocksaying.Contents;
+import com.investmentkorea.android.stocksaying.MainWidget;
 import com.investmentkorea.android.stocksaying.R;
 import com.skydoves.powermenu.CustomPowerMenu;
 import com.skydoves.powermenu.OnDismissedListener;
@@ -28,7 +34,12 @@ import util.SettingManager;
  */
 public class SettingActivity extends BaseActivity {
 
-    private Drawable textColorDrawable, bgColorDrawable;
+    private int mAppWidgetId;
+    RemoteViews remoteView;
+    AppWidgetManager appWidgetManager;
+
+    private int bgDrawableResource, bgColorResource, textColorResource;
+    private String bgColorName, textColorName;
     private SettingManager settingManager;
     private CustomPowerMenu bgColorPowerMenu, textColorPowerMenu;
 
@@ -47,12 +58,36 @@ public class SettingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            mAppWidgetId = extras.getInt(
+                    AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID);
+        }
+
+        appWidgetManager = AppWidgetManager.getInstance(this);
+        remoteView = new RemoteViews(this.getPackageName(),
+                R.layout.main_widget);
+        appWidgetManager.updateAppWidget(mAppWidgetId, remoteView);
+
+
         ButterKnife.bind(this);
         init();
     }
 
+    /*
+    설정 화면 초기화
+    글자색, 배경색 정보 변수들을 초기화해준다.
+     */
     private void init(){
         settingManager = new SettingManager(getApplicationContext());
+
+        bgDrawableResource = settingManager.getBackgroundDrawable();
+        bgColorResource = settingManager.getBackgroundColor();
+        textColorResource = settingManager.getTextColor();
+        bgColorName = settingManager.getBackgroundDrawableName();
+        textColorName = settingManager.getTextColorName();
 
         bgColorPowerMenu = PowerMenuUtil.getBgColorListMenu(getApplicationContext(), this, onBgMenuItemClickListener, onBgMenuDismissedListener);
         textColorPowerMenu = PowerMenuUtil.getTextColorListMenu(getApplicationContext(), this, onTextMenuItemClickListener, onTextMenuDismissedListener);
@@ -76,13 +111,13 @@ public class SettingActivity extends BaseActivity {
      */
     private void initBtn(int textColor, int bgColor){
         // 글자 색 선택 초기화
-        textColorDrawable = getResources().getDrawable(R.drawable.select_color_thumb_shape);
+        Drawable textColorDrawable = getResources().getDrawable(R.drawable.select_color_thumb_shape);
         textColorDrawable.setColorFilter(getApplicationContext().getResources().getColor(textColor), PorterDuff.Mode.SRC_ATOP);
         textColorSelectIv.setBackground(textColorDrawable);
         textColorTv.setText(settingManager.getTextColorName());
 
         // 배경 색 선택 초기화
-        bgColorDrawable = getResources().getDrawable(R.drawable.select_color_thumb_shape);
+        Drawable bgColorDrawable = getResources().getDrawable(R.drawable.select_color_thumb_shape);
         bgColorDrawable.setColorFilter(getApplicationContext().getResources().getColor(bgColor), PorterDuff.Mode.SRC_ATOP);
         backgroundColorSelectIv.setBackground(bgColorDrawable);
         backgroundColorTv.setText(settingManager.getBackgroundDrawableName());
@@ -96,15 +131,15 @@ public class SettingActivity extends BaseActivity {
         public void onItemClick(int position, ColorPowerMenuModel item) {
             bgColorPowerMenu.dismiss();
 
-            // SharedPreferences 저장
-            settingManager.setKeyBackgroundDrawable(Contents.colorModelArray[position].getBgDrawableResource());
-            settingManager.setKeyBackgroundDrawableName(Contents.colorModelArray[position].getBgColorName());
-            settingManager.setKeyBackgroundColor(Contents.colorModelArray[position].getBgColorResource());
+            bgDrawableResource = Contents.colorModelArray[position].getBgDrawableResource();
+            bgColorName = Contents.colorModelArray[position].getBgColorName();
+            bgColorResource = Contents.colorModelArray[position].getBgColorResource();
+
             // 배경색 썸네일 및 문구 적용
-            backgroundColorSelectIv.setBackground(PowerMenuUtil.getColorDrawable(getApplicationContext(), Contents.colorModelArray[position].getBgColorResource()));
-            backgroundColorTv.setText(Contents.colorModelArray[position].getBgColorName());
+            backgroundColorSelectIv.setBackground(PowerMenuUtil.getColorDrawable(getApplicationContext(), bgColorResource));
+            backgroundColorTv.setText(bgColorName);
             // 미리보기 > 위젯 배경 색상 적용
-            mainWidgetLayout.setBackground(getResources().getDrawable(Contents.colorModelArray[position].getBgDrawableResource()));
+            mainWidgetLayout.setBackground(getResources().getDrawable(bgDrawableResource));
         }
     };
 
@@ -122,14 +157,13 @@ public class SettingActivity extends BaseActivity {
         public void onItemClick(int position, ColorPowerMenuModel item) {
             textColorPowerMenu.dismiss();
 
-            // SharedPreferences 저장
-            settingManager.setKeyTextColor(Contents.colorModelArray[position].getTextColorResource());
-            settingManager.setKeyTextColorName(Contents.colorModelArray[position].getTextColorName());
+            textColorResource = Contents.colorModelArray[position].getTextColorResource();
+            textColorName = Contents.colorModelArray[position].getTextColorName();
             // 글자색 썸네일 및 문구 적용
-            textColorSelectIv.setBackground(PowerMenuUtil.getColorDrawable(getApplicationContext(), Contents.colorModelArray[position].getTextColorResource()));
-            textColorTv.setText(Contents.colorModelArray[position].getTextColorName());
+            textColorSelectIv.setBackground(PowerMenuUtil.getColorDrawable(getApplicationContext(), textColorResource));
+            textColorTv.setText(textColorName);
             // 미리보기 > 위젯 문구 색상 적용
-            contentsTv.setTextColor(getApplicationContext().getResources().getColor(Contents.colorModelArray[position].getTextColorResource()));
+            contentsTv.setTextColor(getApplicationContext().getResources().getColor(textColorResource));
         }
     };
 
@@ -141,7 +175,7 @@ public class SettingActivity extends BaseActivity {
 
 
 
-    @OnClick({R.id.back_btn, R.id.select_text_color_layout, R.id.select_background_color_layout}) void onClick(View v){
+    @OnClick({R.id.back_btn, R.id.select_text_color_layout, R.id.select_background_color_layout, R.id.save_btn}) void onClick(View v){
         switch (v.getId()){
             case R.id.back_btn:
                 finish();
@@ -151,6 +185,29 @@ public class SettingActivity extends BaseActivity {
                 break;
             case R.id.select_text_color_layout:
                 textColorPowerMenu.showAtCenter(selectTextColorLayout);
+                break;
+            case R.id.save_btn:
+                // SharedPreference 에 배경색 저장
+                settingManager.setKeyBackgroundDrawable(bgDrawableResource);
+                settingManager.setKeyBackgroundDrawableName(bgColorName);
+                settingManager.setKeyBackgroundColor(bgColorResource);
+
+                // SharedPreference 에 글자색 저장
+                settingManager.setKeyTextColor(textColorResource);
+                settingManager.setKeyTextColorName(textColorName);
+
+                Intent update = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                update.setClass(this, MainWidget.class);
+                update.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetManager.getAppWidgetIds(new ComponentName(this, MainWidget.class)));
+                this.sendBroadcast(update);
+
+                appWidgetManager.updateAppWidget(mAppWidgetId, remoteView);
+                Intent resultValue = new Intent();
+                resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+                setResult(RESULT_OK, resultValue);
+                finish();
+
+
                 break;
         }
     }
