@@ -207,8 +207,8 @@
 
                     <ToggleButton
                         android:id="@+id/half_select_toggle"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="27dp"
+                        android:layout_height="27dp"
                         android:layout_centerVertical="true"
                         android:textOff=""
                         android:textOn=""

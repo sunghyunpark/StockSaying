@@ -31,8 +31,19 @@ public class MainWidget extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.main_widget);
 
-        // 배경색 지정
-        views.setInt(R.id.main_widget_layout, "setBackgroundResource", settingManager.getBackgroundDrawable());
+        // 배경색 지정, 반 투명 값 여부 체크하여 분기처리
+        if(settingManager.isTranslucency()){
+            // 반투명 적용된 상태
+            for(int i=0;i<Contents.colorModelArray.length;i++){
+                if(settingManager.getBackgroundDrawable() == Contents.colorModelArray[i].getBgDrawableResource()){
+                    views.setInt(R.id.main_widget_layout, "setBackgroundResource", Contents.colorModelArray[i].getBgDrawableTranslucencyResource());
+                    break;
+                }
+            }
+        }else{
+            // 반투명 미적용 상태
+            views.setInt(R.id.main_widget_layout, "setBackgroundResource", settingManager.getBackgroundDrawable());
+        }
 
         // 명언 문구 적용
         views.setTextViewText(R.id.contents_tv, contentsText);

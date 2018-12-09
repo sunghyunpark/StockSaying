@@ -12,6 +12,9 @@ import com.skydoves.powermenu.MenuBaseAdapter;
 
 import model.ColorPowerMenuModel;
 
+/*
+ * PowerMenu 색상 선택에 사용되는 adapter
+ */
 public class ColorMenuAdapter extends MenuBaseAdapter<ColorPowerMenuModel> {
 
     @Override
