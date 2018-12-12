@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
@@ -48,6 +49,9 @@ public class MainWidget extends AppWidgetProvider {
         // 명언 문구 적용
         views.setTextViewText(R.id.contents_tv, contentsText);
         views.setTextColor(R.id.contents_tv, context.getResources().getColor(settingManager.getTextColor()));
+        
+        // 명언 정렬 적용
+        views.setInt(R.id.contents_layout, "setGravity", Gravity.CENTER_VERTICAL | Gravity.LEFT);
 
         // 등록 날짜
         views.setTextViewText(R.id.created_at_tv, "2018-12-04");

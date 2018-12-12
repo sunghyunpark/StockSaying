@@ -1,12 +1,8 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:id="@+id/main_widget_layout">
-
-    <ImageView
-        android:id="@+id/widget_iv"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
     <RelativeLayout
         android:id="@+id/top_layout"
@@ -32,27 +28,35 @@
             android:background="@mipmap/more_btn_outline_72"/>
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/contents_tv"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/appwidget_text"
-        android:text="@string/appwidget_text"
-        android:textColor="#ffffff"
-        android:gravity="center_vertical|center_horizontal"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:layout_below="@+id/top_layout"
-        android:layout_above="@+id/writer_id"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/writer_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
-        android:textSize="18dp"
-        android:textColor="@color/colorWhite"
-        android:layout_alignParentBottom="true"/>
-
-</RelativeLayout>
+        <LinearLayout
+            android:id="@+id/contents_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:padding="10dp"
+            android:layout_above="@+id/writer_id">
+            <TextView
+                android:id="@+id/contents_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/appwidget_text"
+                android:text="@string/appwidget_text"
+                android:textColor="#ffffff"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/writer_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:textSize="18dp"
+            android:textColor="@color/colorWhite"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+</LinearLayout>
