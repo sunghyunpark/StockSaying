@@ -49,7 +49,7 @@ public class MainWidget extends AppWidgetProvider {
         // 명언 문구 적용
         views.setTextViewText(R.id.contents_tv, contentsText);
         views.setTextColor(R.id.contents_tv, context.getResources().getColor(settingManager.getTextColor()));
-        
+
         // 명언 정렬 적용
         views.setInt(R.id.contents_layout, "setGravity", Gravity.CENTER_VERTICAL | Gravity.LEFT);
 
