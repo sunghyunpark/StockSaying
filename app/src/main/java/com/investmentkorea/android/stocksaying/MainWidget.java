@@ -7,6 +7,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.RemoteViews;
 import android.widget.Toast;
@@ -52,6 +53,8 @@ public class MainWidget extends AppWidgetProvider {
 
         // 명언 정렬 적용
         views.setInt(R.id.contents_layout, "setGravity", Gravity.CENTER_VERTICAL | Gravity.LEFT);
+
+        views.setTextViewTextSize(R.id.contents_tv, TypedValue.COMPLEX_UNIT_DIP, 20);
 
         // 등록 날짜
         views.setTextViewText(R.id.created_at_tv, "2018-12-04");
