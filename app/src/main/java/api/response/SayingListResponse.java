@@ -1,11 +1,13 @@
 package api.response;
 
-import model.UserModel;
+import java.util.ArrayList;
 
-public class LoginResponse {
+import model.SayingModel;
+
+public class SayingListResponse {
     private int code;
     private String message;
-    private UserModel result;
+    private ArrayList<SayingModel> result;
 
     public int getCode() {
         return code;
@@ -23,11 +25,11 @@ public class LoginResponse {
         this.message = message;
     }
 
-    public UserModel getResult() {
+    public ArrayList<SayingModel> getResult() {
         return result;
     }
 
-    public void setResult(UserModel result) {
+    public void setResult(ArrayList<SayingModel> result) {
         this.result = result;
     }
 }

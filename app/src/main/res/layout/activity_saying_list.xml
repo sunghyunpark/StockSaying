@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="view.FamousSayingListActivity">
+    tools:context="view.SayingListActivity">
 
     <RelativeLayout
         android:id="@+id/app_title_bar"
@@ -33,6 +33,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/sort_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="전체"

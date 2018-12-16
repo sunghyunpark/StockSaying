@@ -6,7 +6,7 @@ import android.util.DisplayMetrics;
 import java.util.Calendar;
 
 public class StockSayingApplication extends Application {
-    public static final String SERVER_IP = "http://222.122.202.150:1038/";
+    public static final String STOCKSAYING_API = "http://222.122.202.150:1037/";
     public static int DISPLAY_HEIGHT;    //단말기 높이
     public static int DISPLAY_WIDTH;    //단말기 너비
     //오늘 날짜

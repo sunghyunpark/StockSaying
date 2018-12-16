@@ -2,6 +2,7 @@ package api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.investmentkorea.android.stocksaying.StockSayingApplication;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -15,7 +16,7 @@ public class ApiClient{
                     .setLenient()
                     .create();
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://222.122.202.150:1038/")
+                    .baseUrl(StockSayingApplication.STOCKSAYING_API)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
