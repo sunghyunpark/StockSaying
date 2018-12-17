@@ -54,26 +54,8 @@ public class MainWidget extends AppWidgetProvider {
         // 명언 문구 크기 적용
         views.setTextViewTextSize(R.id.contents_tv, TypedValue.COMPLEX_UNIT_DIP, textSize);
 
-        int gh = 0;
-        int gv = 0;
-
-        if(gravityHorizontal == 1){
-            gh = Gravity.LEFT;
-        }else if(gravityHorizontal == 2){
-            gh = Gravity.CENTER_HORIZONTAL;
-        }else if(gravityHorizontal == 3){
-            gh = Gravity.RIGHT;
-        }
-
-        if(gravityVertical == 1){
-            gv = Gravity.TOP;
-        }else if(gravityVertical == 2){
-            gv = Gravity.CENTER_VERTICAL;
-        }else if(gravityVertical == 3){
-            gv = Gravity.BOTTOM;
-        }
         // 명언 정렬 적용
-        views.setInt(R.id.contents_layout, "setGravity", gv | gh);
+        views.setInt(R.id.contents_layout, "setGravity", getVertical(gravityVertical) | getHorizontal(gravityHorizontal));
 
         // 등록 날짜
         String[] createdAtArray = createdAt.split("-");
@@ -107,9 +89,19 @@ public class MainWidget extends AppWidgetProvider {
             @Override
             public void onResponse(Call<SayingListResponse> call, Response<SayingListResponse> response) {
                 SayingListResponse sayingListResponse = response.body();
-                for (int appWidgetId : appWidgetIds) {
-                    updateAppWidget(context, appWidgetManager, appWidgetId, settingManager, sayingListResponse.getResult().get(0).getContents(), sayingListResponse.getResult().get(0).getCreatedAt(), sayingListResponse.getResult().get(0).getAuthorName(),
-                            sayingListResponse.getResult().get(0).getGravityHorizontal(), sayingListResponse.getResult().get(0).getGravityVertical(), sayingListResponse.getResult().get(0).getTextSize());
+                if(sayingListResponse.getResult().size() > 0){
+                    // 등록된 명언이 있을 때
+                    for (int appWidgetId : appWidgetIds) {
+                        updateAppWidget(context, appWidgetManager, appWidgetId, settingManager, sayingListResponse.getResult().get(0).getContents(), sayingListResponse.getResult().get(0).getCreatedAt(), sayingListResponse.getResult().get(0).getAuthorName(),
+                                sayingListResponse.getResult().get(0).getGravityHorizontal(), sayingListResponse.getResult().get(0).getGravityVertical(), sayingListResponse.getResult().get(0).getTextSize());
+                    }
+                }else{
+                    // 등록된 명언이 없을 때
+                    for (int appWidgetId : appWidgetIds) {
+                        updateAppWidget(context, appWidgetManager, appWidgetId, settingManager, "원데이 주식 명언입니다.", StockSayingApplication.TODAY_YEAR+"-"+StockSayingApplication.TODAY_MONTH+"-"+
+                                StockSayingApplication.TODAY_DAY, "준비중 입니다.",
+                                2, 2, 15);
+                    }
                 }
             }
 
@@ -130,6 +122,26 @@ public class MainWidget extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+    }
+
+    private int getHorizontal(int n){
+        if(n == 1){
+            return Gravity.START;
+        }else if(n == 2){
+            return Gravity.CENTER_HORIZONTAL;
+        }else{
+            return Gravity.END;
+        }
+    }
+
+    private int getVertical(int n){
+        if(n == 1){
+            return Gravity.TOP;
+        }else if(n == 2){
+            return Gravity.CENTER_VERTICAL;
+        }else{
+            return Gravity.BOTTOM;
+        }
     }
 }
 

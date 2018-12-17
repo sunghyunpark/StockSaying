@@ -20,16 +20,19 @@ import presenter.SayingListPresenter;
 import presenter.view.SayingListView;
 import util.EndlessRecyclerOnScrollListener;
 import util.adapter.SayingAdapter;
+import view.dialog.AboutSayingDialog;
 import view.dialog.SelectAuthorDialog;
 
 public class SayingListActivity extends BaseActivity implements SayingListView{
 
+    // 한번에 받아올 데이터 갯수
     private static final int LOAD_DATA_COUNT = 10;
+    // 현재 필터 상태
     private String sortMode = "all";
+
     private SayingListPresenter sayingListPresenter;
     private ArrayList<SayingModel> sayingModelArrayList;
     private SayingAdapter sayingAdapter;
-    private LinearLayoutManager linearLayoutManager;
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
     @BindView(R.id.saying_recyclerView) RecyclerView sayingRecyclerView;
@@ -49,8 +52,14 @@ public class SayingListActivity extends BaseActivity implements SayingListView{
         sayingModelArrayList = new ArrayList<>();
         sayingListPresenter = new SayingListPresenter(getApplicationContext(), this, sayingModelArrayList);
 
-        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        sayingAdapter = new SayingAdapter(sayingModelArrayList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        sayingAdapter = new SayingAdapter(sayingModelArrayList, new SayingAdapter.SayingAdapterListener() {
+            @Override
+            public void clickItem(String contents, String author, String created_at) {
+                AboutSayingDialog aboutSayingDialog = new AboutSayingDialog(SayingListActivity.this, created_at, contents, author);
+                aboutSayingDialog.show();
+            }
+        });
 
         // 최초로 한번 명언 리스트를 불러온다.
         sayingListPresenter.getSayingList(true, 0, "all");
@@ -76,15 +85,18 @@ public class SayingListActivity extends BaseActivity implements SayingListView{
     }
 
 
-    @OnClick({R.id.sort_tv}) void onClick(View v){
+    @OnClick({R.id.sort_tv, R.id.back_btn}) void onClick(View v){
         switch (v.getId()){
+            case R.id.back_btn:
+                finish();
+                break;
             case R.id.sort_tv:
                 SelectAuthorDialog selectAuthorDialog = new SelectAuthorDialog(this, true, new SelectAuthorDialog.SelectAuthorListener() {
                     @Override
                     public void selectAuthor(String authorName) {
                         sortTv.setText(authorName);
-                        authorName = (authorName.equals("전체") ? "all" : authorName);
-                        sayingListPresenter.getSayingList(true, 0, authorName);
+                        sortMode = (authorName.equals("전체보기") ? "all" : authorName);
+                        sayingListPresenter.getSayingList(true, 0, sortMode);
                         endlessRecyclerOnScrollListener.reset(0, true);
                     }
                 });

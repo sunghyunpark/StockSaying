@@ -43,8 +43,8 @@ public class SayingListPresenter extends BasePresenter<SayingListView> {
                     for(SayingModel sm : sayingListResponse.getResult()){
                         Collections.addAll(sayingModelArrayList, sm);
                     }
-                    getView().setSayingList();
                 }
+                getView().setSayingList();
             }
 
             @Override

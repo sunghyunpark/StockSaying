@@ -65,7 +65,7 @@ public class SelectAuthorDialog extends Dialog {
         authorModelArrayList = new ArrayList<>();
 
         if(isAll){
-            authorModelArrayList.add(new AuthorModel("전체"));
+            authorModelArrayList.add(new AuthorModel("전체보기"));
         }
 
         LinearLayoutManager lL = new LinearLayoutManager(getContext());
@@ -93,8 +93,8 @@ public class SelectAuthorDialog extends Dialog {
                     for(AuthorModel am : authorListResponse.getResult()){
                         Collections.addAll(authorModelArrayList, am);
                     }
-                    selectAuthorAdapter.notifyDataSetChanged();
                 }
+                selectAuthorAdapter.notifyDataSetChanged();
             }
 
             @Override

@@ -17,9 +17,15 @@ import model.SayingModel;
 public class SayingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private static final int TYPE_ITEM = 1;
     private ArrayList<SayingModel> sayingModelArrayList;
+    private SayingAdapterListener sayingAdapterListener;
 
-    public SayingAdapter(ArrayList<SayingModel> sayingModelArrayList){
+    public SayingAdapter(ArrayList<SayingModel> sayingModelArrayList, SayingAdapterListener sayingAdapterListener){
         this.sayingModelArrayList = sayingModelArrayList;
+        this.sayingAdapterListener = sayingAdapterListener;
+    }
+
+    public interface SayingAdapterListener{
+        void clickItem(String contents, String author, String created_at);
     }
 
     @Override
@@ -47,12 +53,18 @@ public class SayingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             VHitem.contentsTv.setText(currentItem.getContents());
             VHitem.authorTv.setText("- "+currentItem.getAuthorName()+" -");
 
+            VHitem.itemLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sayingAdapterListener.clickItem(currentItem.getContents(), currentItem.getAuthorName(), currentItem.getCreatedAt());
+                }
+            });
 
         }
     }
 
     public class Saying_VH extends RecyclerView.ViewHolder{
-
+        @BindView(R.id.item_layout) ViewGroup itemLayout;
         @BindView(R.id.month_tv) TextView monthTv;
         @BindView(R.id.day_tv) TextView dayTv;
         @BindView(R.id.contents_tv) TextView contentsTv;
