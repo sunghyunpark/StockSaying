@@ -49,8 +49,11 @@ public class MainWidget extends AppWidgetProvider {
 
         // 명언 문구 적용
         views.setTextViewText(R.id.contents_tv, contentsText);
-        // 명언 문구 색상 적용
+        // 명언 문구, 날짜, 작가 색상 적용
         views.setTextColor(R.id.contents_tv, context.getResources().getColor(settingManager.getTextColor()));
+        views.setTextColor(R.id.author_tv, context.getResources().getColor(settingManager.getTextColor()));
+        views.setTextColor(R.id.created_at_tv, context.getResources().getColor(settingManager.getTextColor()));
+
         // 명언 문구 크기 적용
         views.setTextViewTextSize(R.id.contents_tv, TypedValue.COMPLEX_UNIT_DIP, textSize);
 
@@ -62,17 +65,24 @@ public class MainWidget extends AppWidgetProvider {
         views.setTextViewText(R.id.created_at_tv, createdAtArray[0]+"년 "+createdAtArray[1]+"월 "+createdAtArray[2]+"일");
 
         // 작가 적용
-        views.setTextViewText(R.id.writer_id, authorName);
+        views.setTextViewText(R.id.author_tv, "by " + authorName);
 
-        // 더보기 버튼 클릭
+        // 셋팅 버튼 클릭
         Intent moreIntent = new Intent(context, SettingActivity.class);
         PendingIntent morePendingIntent = PendingIntent.getActivity(context, 0, moreIntent, 0);
-        views.setOnClickPendingIntent(R.id.more_btn, morePendingIntent);
+        views.setOnClickPendingIntent(R.id.setting_btn, morePendingIntent);
 
-        // 문구 클릭
+        /*
+        Intent moreIntent = new Intent(Intent.ACTION_VIEW);
+        moreIntent.setData(Uri.parse("https://m.naver.com"));
+        PendingIntent morePendingIntent = PendingIntent.getActivity(context, 0, moreIntent, 0);
+        views.setOnClickPendingIntent(R.id.more_btn, morePendingIntent);
+        */
+
+        // 리스트 버튼 클릭
         Intent contentsIntent = new Intent(context, SayingListActivity.class);
         PendingIntent contentsPendingIntent = PendingIntent.getActivity(context, 0, contentsIntent, 0);
-        views.setOnClickPendingIntent(R.id.contents_tv, contentsPendingIntent);
+        views.setOnClickPendingIntent(R.id.list_btn, contentsPendingIntent);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

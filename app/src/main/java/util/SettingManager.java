@@ -103,6 +103,6 @@ public class SettingManager {
     투명 설정인지 true / false 반환
      */
     public boolean isTranslucency(){
-        return preferences.getBoolean(KEY_IS_TRANSLUCENCY, false);
+        return preferences.getBoolean(KEY_IS_TRANSLUCENCY, true);
     }
 }

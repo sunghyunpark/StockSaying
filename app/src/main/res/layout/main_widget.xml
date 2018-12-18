@@ -1,7 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_margin="10dp"
     android:id="@+id/main_widget_layout">
 
     <RelativeLayout
@@ -9,54 +10,69 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp">
+        <ImageButton
+            android:id="@+id/widget_logo_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:background="@mipmap/widget_logo_72"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"/>
         <TextView
             android:id="@+id/created_at_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_toRightOf="@+id/widget_logo_btn"
             android:layout_marginLeft="10dp"
             android:textColor="@color/colorWhite"
             android:textSize="15dp"
             android:layout_centerVertical="true"/>
         <ImageButton
-            android:id="@+id/more_btn"
+            android:id="@+id/setting_btn"
             android:layout_width="23dp"
             android:layout_height="23dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
             android:layout_centerVertical="true"
-            android:background="@mipmap/more_btn_outline_72"/>
+            android:background="@mipmap/setting_btn_img_72"/>
+
+        <ImageButton
+            android:id="@+id/list_btn"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/setting_btn"
+            android:layout_marginRight="10dp"
+            android:background="@mipmap/list_img_btn_72"/>
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/contents_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/contents_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
-            android:padding="10dp"
-            android:layout_above="@+id/writer_id">
-            <TextView
-                android:id="@+id/contents_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/appwidget_text"
-                android:text="@string/appwidget_text"
-                android:textColor="#ffffff"
-                android:textStyle="bold" />
-        </LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/top_layout"
+        android:padding="10dp"
+        android:layout_above="@+id/author_tv">
         <TextView
-            android:id="@+id/writer_id"
+            android:id="@+id/contents_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:textSize="15dp"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/colorWhite"
-            android:layout_alignParentBottom="true"/>
-    </RelativeLayout>
-</LinearLayout>
+            android:gravity="center"
+            android:contentDescription="@string/appwidget_text"
+            android:text="@string/appwidget_text"
+            android:textColor="#ffffff"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/author_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:textSize="15dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/colorWhite"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>
