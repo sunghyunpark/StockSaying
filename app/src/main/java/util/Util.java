@@ -10,6 +10,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.investmentkorea.android.stocksaying.R;
+import com.investmentkorea.android.stocksaying.StockSayingApplication;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class Util {
 
@@ -36,4 +43,29 @@ public class Util {
         return progressDialog;
     }
 
+    public static String parseTimeWithoutTime(String timeStr){
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        s.setTimeZone(TimeZone.getDefault());
+        try {
+            return s.format(getDate(timeStr));
+        }catch (NullPointerException e){
+            return StockSayingApplication.TODAY_YEAR+"-"+StockSayingApplication.TODAY_MONTH+"-"+StockSayingApplication.TODAY_DAY;
+        }
+    }
+
+    private static Date getDate(String dateStr) {
+        SimpleDateFormat s;
+        if (dateStr.endsWith("Z")) {
+            s = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.000Z'", Locale.getDefault());
+            s.setTimeZone(TimeZone.getTimeZone("UTC"));
+        } else {
+            s = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ", Locale.getDefault());
+        }
+        try {
+            return s.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

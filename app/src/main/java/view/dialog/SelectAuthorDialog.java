@@ -24,12 +24,15 @@ import model.AuthorModel;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import util.EndlessRecyclerOnScrollListener;
 import util.Util;
 import util.adapter.SelectAuthorAdapter;
 
 public class SelectAuthorDialog extends Dialog {
 
-    private boolean isAll;
+    // 한번에 받아올 데이터 갯수
+    private static final int LOAD_DATA_COUNT = 30;
+
     private ArrayList<AuthorModel> authorModelArrayList;
     private SelectAuthorAdapter selectAuthorAdapter;
     private SelectAuthorListener selectAuthorListener;
@@ -39,9 +42,8 @@ public class SelectAuthorDialog extends Dialog {
     /*
     isAll -> true - '전체' 항목이 노출, false - '전체' 항목이 미노출
      */
-    public SelectAuthorDialog(Context context, boolean isAll, SelectAuthorListener selectAuthorListener){
+    public SelectAuthorDialog(Context context, SelectAuthorListener selectAuthorListener){
         super(context);
-        this.isAll = isAll;
         this.selectAuthorListener = selectAuthorListener;
     }
 
@@ -64,10 +66,6 @@ public class SelectAuthorDialog extends Dialog {
     private void init(){
         authorModelArrayList = new ArrayList<>();
 
-        if(isAll){
-            authorModelArrayList.add(new AuthorModel("전체보기"));
-        }
-
         LinearLayoutManager lL = new LinearLayoutManager(getContext());
         selectAuthorAdapter = new SelectAuthorAdapter(authorModelArrayList, new SelectAuthorAdapter.SelectAuthorAdapterListener() {
             @Override
@@ -75,26 +73,52 @@ public class SelectAuthorDialog extends Dialog {
                 selectAuthorListener.selectAuthor(authorName);
                 dismiss();
             }
+            @Override
+            public void selectAll(){
+                selectAuthorListener.selectAuthor("전체보기");
+                dismiss();
+            }
         });
+
+        getAuthorList(true, 0);
+
+        // LoadMore 리스너 등록
+        EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener(lL, LOAD_DATA_COUNT) {
+            @Override
+            public void onLoadMore(int current_page) {
+                if(!authorModelArrayList.isEmpty()){
+                    getAuthorList(false, authorModelArrayList.get(authorModelArrayList.size()-1).getNo());
+                }
+            }
+        };
+        authorRecyclerView.addOnScrollListener(endlessRecyclerOnScrollListener);
+
         authorRecyclerView.setLayoutManager(lL);
         authorRecyclerView.setAdapter(selectAuthorAdapter);
 
-        getAuthorList();
     }
 
-    private void getAuthorList(){
+    private void getAuthorList(boolean refresh, int no){
+        if(refresh){
+            authorModelArrayList.clear();
+        }
+
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-        Call<AuthorListResponse> call = apiService.getAuthorList();
+        Call<AuthorListResponse> call = apiService.getAuthorList(no);
         call.enqueue(new Callback<AuthorListResponse>() {
             @Override
             public void onResponse(Call<AuthorListResponse> call, Response<AuthorListResponse> response) {
                 AuthorListResponse authorListResponse = response.body();
-                if(authorListResponse.getResult().size() > 0) {
+                if(authorListResponse.getCode() == 200) {
                     for(AuthorModel am : authorListResponse.getResult()){
                         Collections.addAll(authorModelArrayList, am);
                     }
                 }
                 selectAuthorAdapter.notifyDataSetChanged();
+
+                for(int i=0;i<authorModelArrayList.size();i++){
+                    Log.d("authorName", authorModelArrayList.get(i).getNo()+"dd");
+                }
             }
 
             @Override

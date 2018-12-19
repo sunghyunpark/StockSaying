@@ -46,6 +46,18 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="15dp"/>
 
+    <TextView
+        android:id="@+id/empty_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|center_vertical"
+        android:textSize="15dp"
+        android:visibility="gone"
+        android:background="#eff0f1"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/colorBlack"
+        android:text="등록된 명언이 없습니다."/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/saying_recyclerView"
         android:layout_width="match_parent"

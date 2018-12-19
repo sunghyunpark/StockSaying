@@ -1,6 +1,5 @@
 package view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +25,7 @@ import view.dialog.SelectAuthorDialog;
 public class SayingListActivity extends BaseActivity implements SayingListView{
 
     // 한번에 받아올 데이터 갯수
-    private static final int LOAD_DATA_COUNT = 10;
+    private static final int LOAD_DATA_COUNT = 30;
     // 현재 필터 상태
     private String sortMode = "all";
 
@@ -36,6 +35,7 @@ public class SayingListActivity extends BaseActivity implements SayingListView{
     private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 
     @BindView(R.id.saying_recyclerView) RecyclerView sayingRecyclerView;
+    @BindView(R.id.empty_tv) TextView emptyTv;
     @BindView(R.id.sort_tv) TextView sortTv;
 
     @Override
@@ -81,7 +81,14 @@ public class SayingListActivity extends BaseActivity implements SayingListView{
 
     @Override
     public void setSayingList(){
-        sayingAdapter.notifyDataSetChanged();
+        if(sayingModelArrayList.size() > 0){
+            emptyTv.setVisibility(View.GONE);
+            sayingRecyclerView.setVisibility(View.VISIBLE);
+            sayingAdapter.notifyDataSetChanged();
+        }else{
+            emptyTv.setVisibility(View.VISIBLE);
+            sayingRecyclerView.setVisibility(View.GONE);
+        }
     }
 
 
@@ -91,7 +98,7 @@ public class SayingListActivity extends BaseActivity implements SayingListView{
                 finish();
                 break;
             case R.id.sort_tv:
-                SelectAuthorDialog selectAuthorDialog = new SelectAuthorDialog(this, true, new SelectAuthorDialog.SelectAuthorListener() {
+                SelectAuthorDialog selectAuthorDialog = new SelectAuthorDialog(this, new SelectAuthorDialog.SelectAuthorListener() {
                     @Override
                     public void selectAuthor(String authorName) {
                         sortTv.setText(authorName);

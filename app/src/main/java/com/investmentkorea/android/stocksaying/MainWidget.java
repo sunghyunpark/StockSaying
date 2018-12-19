@@ -17,6 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import util.SettingManager;
+import util.Util;
 import view.SayingListActivity;
 import view.SettingActivity;
 
@@ -102,7 +103,7 @@ public class MainWidget extends AppWidgetProvider {
                 if(sayingListResponse.getResult().size() > 0){
                     // 등록된 명언이 있을 때
                     for (int appWidgetId : appWidgetIds) {
-                        updateAppWidget(context, appWidgetManager, appWidgetId, settingManager, sayingListResponse.getResult().get(0).getContents(), sayingListResponse.getResult().get(0).getCreatedAt(), sayingListResponse.getResult().get(0).getAuthorName(),
+                        updateAppWidget(context, appWidgetManager, appWidgetId, settingManager, sayingListResponse.getResult().get(0).getContents(), Util.parseTimeWithoutTime(sayingListResponse.getResult().get(0).getCreatedAt()), sayingListResponse.getResult().get(0).getAuthorName(),
                                 sayingListResponse.getResult().get(0).getGravityHorizontal(), sayingListResponse.getResult().get(0).getGravityVertical(), sayingListResponse.getResult().get(0).getTextSize());
                     }
                 }else{

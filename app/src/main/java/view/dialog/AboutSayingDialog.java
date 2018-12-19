@@ -11,6 +11,7 @@ import com.investmentkorea.android.stocksaying.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import util.Util;
 
 public class AboutSayingDialog extends Dialog {
 
@@ -40,9 +41,9 @@ public class AboutSayingDialog extends Dialog {
     }
 
     private void init(){
-        createdAtTv.setText(created_at);
+        createdAtTv.setText(Util.parseTimeWithoutTime(created_at));
         contentsTv.setText(contents);
-        authorTv.setText(author);
+        authorTv.setText("by "+author);
     }
 
 }

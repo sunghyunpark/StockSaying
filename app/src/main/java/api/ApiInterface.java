@@ -18,8 +18,8 @@ public interface ApiInterface {
     /*
     명언 저자 리스트 API
      */
-    @GET("api/author/authorList")
-    Call<AuthorListResponse> getAuthorList();
+    @GET("api/author/authorList/{no}")
+    Call<AuthorListResponse> getAuthorList(@Path("no") int no);
 
     @GET("api/saying/recent")
     Call<SayingListResponse> getSaying();
