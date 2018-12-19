@@ -55,8 +55,10 @@ public class MainWidget extends AppWidgetProvider {
         views.setTextColor(R.id.author_tv, context.getResources().getColor(settingManager.getTextColor()));
         views.setTextColor(R.id.created_at_tv, context.getResources().getColor(settingManager.getTextColor()));
 
-        // 명언 문구 크기 적용
+        // 명언 문구, 날짜, 작가 크기 적용
         views.setTextViewTextSize(R.id.contents_tv, TypedValue.COMPLEX_UNIT_DIP, textSize);
+        views.setTextViewTextSize(R.id.created_at_tv, TypedValue.COMPLEX_UNIT_DIP, textSize);
+        views.setTextViewTextSize(R.id.author_tv, TypedValue.COMPLEX_UNIT_DIP, textSize);
 
         // 명언 정렬 적용
         views.setInt(R.id.contents_layout, "setGravity", getVertical(gravityVertical) | getHorizontal(gravityHorizontal));
