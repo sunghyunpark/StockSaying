@@ -22,4 +22,5 @@
     <color name="colorHalfGreen">#5500E676</color>
     <color name="colorPurple">#AA00FF</color>
     <color name="colorHalfPurple">#55AA00FF</color>
+    <color name="colorGray">#565656</color>
 </resources>

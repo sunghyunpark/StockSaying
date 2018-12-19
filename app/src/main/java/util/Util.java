@@ -53,6 +53,16 @@ public class Util {
         }
     }
 
+    public static String parseTimeWithoutTimeByCustom(String timeStr){
+        SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        s.setTimeZone(TimeZone.getDefault());
+        try {
+            return s.format(getDate(timeStr));
+        }catch (NullPointerException e){
+            return StockSayingApplication.TODAY_YEAR+"-"+StockSayingApplication.TODAY_MONTH+"-"+StockSayingApplication.TODAY_DAY;
+        }
+    }
+
     private static Date getDate(String dateStr) {
         SimpleDateFormat s;
         if (dateStr.endsWith("Z")) {
@@ -68,4 +78,16 @@ public class Util {
             return null;
         }
     }
+
+    public static String ellipseStr(String str){
+        String resultStr;
+
+        if(str.length() > 4){
+            resultStr = str.substring(0,3)+"...";
+        }else{
+            return str;
+        }
+        return resultStr;
+    }
+
 }

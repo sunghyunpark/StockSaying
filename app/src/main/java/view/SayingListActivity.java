@@ -18,6 +18,7 @@ import model.SayingModel;
 import presenter.SayingListPresenter;
 import presenter.view.SayingListView;
 import util.EndlessRecyclerOnScrollListener;
+import util.Util;
 import util.adapter.SayingAdapter;
 import view.dialog.AboutSayingDialog;
 import view.dialog.SelectAuthorDialog;
@@ -53,7 +54,7 @@ public class SayingListActivity extends BaseActivity implements SayingListView{
         sayingListPresenter = new SayingListPresenter(getApplicationContext(), this, sayingModelArrayList);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        sayingAdapter = new SayingAdapter(sayingModelArrayList, new SayingAdapter.SayingAdapterListener() {
+        sayingAdapter = new SayingAdapter(getApplicationContext(), sayingModelArrayList, new SayingAdapter.SayingAdapterListener() {
             @Override
             public void clickItem(String contents, String author, String created_at) {
                 AboutSayingDialog aboutSayingDialog = new AboutSayingDialog(SayingListActivity.this, created_at, contents, author);
@@ -101,7 +102,7 @@ public class SayingListActivity extends BaseActivity implements SayingListView{
                 SelectAuthorDialog selectAuthorDialog = new SelectAuthorDialog(this, new SelectAuthorDialog.SelectAuthorListener() {
                     @Override
                     public void selectAuthor(String authorName) {
-                        sortTv.setText(authorName);
+                        sortTv.setText(Util.ellipseStr(authorName));
                         sortMode = (authorName.equals("전체보기") ? "all" : authorName);
                         sayingListPresenter.getSayingList(true, 0, sortMode);
                         endlessRecyclerOnScrollListener.reset(0, true);

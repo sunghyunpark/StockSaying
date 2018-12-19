@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:textSize="25dp"
             android:textStyle="bold"
-            android:textColor="#565656"
+            android:textColor="@color/colorGray"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:text="11"/>
@@ -36,7 +36,7 @@
             android:layout_toRightOf="@+id/month_tv"
             android:gravity="top"
             android:text="28"
-            android:textColor="#565656"
+            android:textColor="@color/colorGray"
             android:textSize="40dp"
             android:textStyle="bold" />
 

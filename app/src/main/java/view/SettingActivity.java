@@ -18,6 +18,7 @@ import android.widget.ToggleButton;
 import com.investmentkorea.android.stocksaying.Contents;
 import com.investmentkorea.android.stocksaying.MainWidget;
 import com.investmentkorea.android.stocksaying.R;
+import com.investmentkorea.android.stocksaying.StockSayingApplication;
 import com.skydoves.powermenu.CustomPowerMenu;
 import com.skydoves.powermenu.OnDismissedListener;
 import com.skydoves.powermenu.OnMenuItemClickListener;
@@ -54,6 +55,8 @@ public class SettingActivity extends BaseActivity {
     @BindView(R.id.select_text_color_layout) ViewGroup selectTextColorLayout;     // 글자색 레이아웃
     @BindView(R.id.contents_tv) TextView contentsTv;    // 위젯 문구
     @BindView(R.id.half_select_toggle) ToggleButton halfSelectToggle;    // 반투명 토글 버튼
+    @BindView(R.id.created_at_tv) TextView createdAtTv;
+    @BindView(R.id.author_tv) TextView authorTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +119,9 @@ public class SettingActivity extends BaseActivity {
         mainWidgetLayout.setBackground(roundDrawable);
         backGroundIv.setBackground(WallpaperManager.getInstance(this).getDrawable());
         contentsTv.setTextColor(getResources().getColor(settingManager.getTextColor()));
+        createdAtTv.setText(StockSayingApplication.TODAY_YEAR+"년 "+StockSayingApplication.TODAY_MONTH+"월 "+StockSayingApplication.TODAY_DAY+"일");
+        createdAtTv.setTextColor(getResources().getColor(settingManager.getTextColor()));
+        authorTv.setTextColor(getResources().getColor(settingManager.getTextColor()));
     }
 
     /*
@@ -181,8 +187,10 @@ public class SettingActivity extends BaseActivity {
             // 글자색 썸네일 및 문구 적용
             textColorSelectIv.setBackground(PowerMenuUtil.getColorDrawable(getApplicationContext(), colorModel.getTextColorResource()));
             textColorTv.setText(colorModel.getTextColorName());
-            // 미리보기 > 위젯 문구 색상 적용
+            // 미리보기 > 위젯 문구, 날짜, 작가 색상 적용
             contentsTv.setTextColor(getApplicationContext().getResources().getColor(colorModel.getTextColorResource()));
+            createdAtTv.setTextColor(getApplicationContext().getResources().getColor(colorModel.getTextColorResource()));
+            authorTv.setTextColor(getApplicationContext().getResources().getColor(colorModel.getTextColorResource()));
         }
     };
 

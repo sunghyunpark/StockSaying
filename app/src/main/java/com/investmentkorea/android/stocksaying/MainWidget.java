@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -70,16 +71,16 @@ public class MainWidget extends AppWidgetProvider {
         views.setTextViewText(R.id.author_tv, "by " + authorName);
 
         // 셋팅 버튼 클릭
-        Intent moreIntent = new Intent(context, SettingActivity.class);
-        PendingIntent morePendingIntent = PendingIntent.getActivity(context, 0, moreIntent, 0);
-        views.setOnClickPendingIntent(R.id.setting_btn, morePendingIntent);
+        Intent settingIntent = new Intent(context, SettingActivity.class);
+        PendingIntent settingPendingIntent = PendingIntent.getActivity(context, 0, settingIntent, 0);
+        views.setOnClickPendingIntent(R.id.setting_btn, settingPendingIntent);
 
-        /*
-        Intent moreIntent = new Intent(Intent.ACTION_VIEW);
-        moreIntent.setData(Uri.parse("https://m.naver.com"));
-        PendingIntent morePendingIntent = PendingIntent.getActivity(context, 0, moreIntent, 0);
-        views.setOnClickPendingIntent(R.id.more_btn, morePendingIntent);
-        */
+        // 로고 버튼 클릭
+        Intent logoIntent = new Intent(Intent.ACTION_VIEW);
+        logoIntent.setData(Uri.parse("http://www.investment-korea.com/"));
+        PendingIntent logoPendingIntent = PendingIntent.getActivity(context, 0, logoIntent, 0);
+        views.setOnClickPendingIntent(R.id.widget_logo_btn, logoPendingIntent);
+
 
         // 리스트 버튼 클릭
         Intent contentsIntent = new Intent(context, SayingListActivity.class);
@@ -110,8 +111,8 @@ public class MainWidget extends AppWidgetProvider {
                 }else{
                     // 등록된 명언이 없을 때
                     for (int appWidgetId : appWidgetIds) {
-                        updateAppWidget(context, appWidgetManager, appWidgetId, settingManager, "원데이 주식 명언입니다.", StockSayingApplication.TODAY_YEAR+"-"+StockSayingApplication.TODAY_MONTH+"-"+
-                                StockSayingApplication.TODAY_DAY, "준비중 입니다.",
+                        updateAppWidget(context, appWidgetManager, appWidgetId, settingManager, "원데이 주식 명언입니다", StockSayingApplication.TODAY_YEAR+"년 "+StockSayingApplication.TODAY_MONTH+"월 "+
+                                StockSayingApplication.TODAY_DAY+"일", "원데이",
                                 2, 2, 15);
                     }
                 }
