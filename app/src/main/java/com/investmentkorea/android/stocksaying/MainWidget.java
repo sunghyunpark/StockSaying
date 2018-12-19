@@ -62,8 +62,7 @@ public class MainWidget extends AppWidgetProvider {
         views.setInt(R.id.contents_layout, "setGravity", getVertical(gravityVertical) | getHorizontal(gravityHorizontal));
 
         // 등록 날짜
-        String[] createdAtArray = createdAt.split("-");
-        views.setTextViewText(R.id.created_at_tv, createdAtArray[0]+"년 "+createdAtArray[1]+"월 "+createdAtArray[2]+"일");
+        views.setTextViewText(R.id.created_at_tv, createdAt);
 
         // 작가 적용
         views.setTextViewText(R.id.author_tv, "by " + authorName);
