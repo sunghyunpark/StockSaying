@@ -28,8 +28,6 @@ import view.SettingActivity;
  */
 public class MainWidget extends AppWidgetProvider {
 
-    private static final String REFRESH_CLICK = "refresh";
-
     public void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId, SettingManager settingManager, String contentsText, String createdAt, String authorName, int gravityHorizontal, int gravityVertical, int textSize) {
         // Construct the RemoteViews object
@@ -51,6 +49,7 @@ public class MainWidget extends AppWidgetProvider {
 
         // 명언 문구 적용
         views.setTextViewText(R.id.contents_tv, contentsText);
+
         // 명언 문구, 날짜, 작가 색상 적용
         views.setTextColor(R.id.contents_tv, context.getResources().getColor(settingManager.getTextColor()));
         views.setTextColor(R.id.author_tv, context.getResources().getColor(settingManager.getTextColor()));
@@ -81,7 +80,6 @@ public class MainWidget extends AppWidgetProvider {
         PendingIntent logoPendingIntent = PendingIntent.getActivity(context, 0, logoIntent, 0);
         views.setOnClickPendingIntent(R.id.widget_logo_btn, logoPendingIntent);
 
-
         // 리스트 버튼 클릭
         Intent contentsIntent = new Intent(context, SayingListActivity.class);
         PendingIntent contentsPendingIntent = PendingIntent.getActivity(context, 0, contentsIntent, 0);
@@ -111,8 +109,8 @@ public class MainWidget extends AppWidgetProvider {
                 }else{
                     // 등록된 명언이 없을 때
                     for (int appWidgetId : appWidgetIds) {
-                        updateAppWidget(context, appWidgetManager, appWidgetId, settingManager, "원데이 주식 명언입니다", StockSayingApplication.TODAY_YEAR+"년 "+StockSayingApplication.TODAY_MONTH+"월 "+
-                                StockSayingApplication.TODAY_DAY+"일", "원데이",
+                        updateAppWidget(context, appWidgetManager, appWidgetId, settingManager, "원데이 주식 명언", StockSayingApplication.TODAY_YEAR+"년 "+StockSayingApplication.TODAY_MONTH+"월 "+
+                                StockSayingApplication.TODAY_DAY+"일", "인베스트먼트코리아",
                                 2, 2, 15);
                     }
                 }

@@ -18,7 +18,6 @@ import retrofit2.Response;
 import util.Util;
 
 public class SayingListPresenter extends BasePresenter<SayingListView> {
-
     private Context context;
     private ArrayList<SayingModel> sayingModelArrayList;
     private ApiInterface apiService;
@@ -30,6 +29,9 @@ public class SayingListPresenter extends BasePresenter<SayingListView> {
         this.apiService = ApiClient.getClient().create(ApiInterface.class);
     }
 
+    /*
+    * 명언 리스트를 받아온다.
+     */
     public void getSayingList(boolean refresh, int no, String sort){
         if(refresh)
             sayingModelArrayList.clear();
